@@ -53,7 +53,7 @@ public class AICharacter : MonoBehaviour
 
     // Declare 'sight' detection members
     Transform trans;
-    float scanDelay = 0.4f;
+    float scanDelay = 0.1f;
     GameObject currentGround = null;
     List<GameObject> touchedPlats;
 
@@ -132,6 +132,15 @@ public class AICharacter : MonoBehaviour
         }
         // Call Point Function: Calculate final Objective
         finalObjective = TallyPoints(seenObjects, pointDict);
+        // Refresh points in case we have gone backwards
+        for (int i = 0; i < touchedPlats.Count; i++)
+        {
+            if (touchedPlats[i].transform.position.y > trans.position.y)
+            {
+                touchedPlats.Remove(touchedPlats[i]);
+            }
+        }
+
         if (finalObjective == currentGround || touchedPlats.Contains(finalObjective)) charControl.Target = null;
         else charControl.Target = finalObjective;
         yield return new WaitForSeconds(scanDelay);
@@ -203,6 +212,7 @@ public class AICharacter : MonoBehaviour
         if (pointDict.Count < 1) return null;
         foreach (var keyVal in pointDict)
         {
+            if (touchedPlats.Contains(keyVal.Key)) continue;
             if (lowPoint == 0)
             {
                 lowPoint = keyVal.Value;
@@ -224,6 +234,7 @@ public class AICharacter : MonoBehaviour
         {
             currentGround = collision.gameObject;
             charControl.Grounded = true;
+            if (!touchedPlats.Contains(currentGround))
             touchedPlats.Add(currentGround);
         }
     }

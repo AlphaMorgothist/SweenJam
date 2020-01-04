@@ -10,8 +10,6 @@ public class AIController
     public GameObject Target = null;
     public Vector2 maxSpeed;
 
-    public bool Jumping { get; private set; }
-
     public AIController(Rigidbody2D RB, Transform _trans)
     {
         rB = RB;
@@ -21,11 +19,10 @@ public class AIController
 
     bool IsJumping()
     {
-        if (Mathf.Abs(rB.velocity.y) > 0.1f) return true;
-        else if (IsGrounded() && !Jumping) return false;
+        if (Mathf.Abs(rB.velocity.y) > 0.04f && !IsGrounded()) return true;
+        else if (IsGrounded()) return false;
         else
         {
-            Jumping = false;
             return false;
         }
     }
@@ -33,19 +30,28 @@ public class AIController
     public void Update(Vector2 force)
     {
         Grounded = IsGrounded();
-        if (Grounded)
+        if (!IsJumping())
         {
-            if (rB.velocity.x > maxSpeed.x) rB.velocity = new Vector2(maxSpeed.x, rB.velocity.y);
-            rB.AddForce(force, ForceMode2D.Force);
-        }
-        else if (!Grounded && Target && !IsJumping())
-        {
-            rB.velocity *= 0.5f;
-            Jump(Target.transform.position);
-        }
-        else
-        {
-            TurnAround();
+            if (Grounded)
+            {
+                if (rB.velocity.x > maxSpeed.x) rB.velocity = new Vector2(maxSpeed.x, rB.velocity.y);
+                rB.AddForce(force, ForceMode2D.Force);
+            }
+            else if (!Grounded && Target && Vector2.Distance(trans.position, Target.transform.position) > 4)
+            {
+                rB.velocity *= 0.5f;
+                TurnAround();
+            }
+            else if (!Grounded && Target)
+            {
+                rB.velocity *= 0.5f;
+                Jump(Target.transform.position);
+            }
+            else
+            {
+                rB.velocity *= 0.5f;
+                TurnAround();
+            }
         }
     }
 
@@ -59,10 +65,14 @@ public class AIController
     public bool IsGrounded()
     {
         RaycastHit2D hit = Physics2D.Raycast(trans.position, trans.TransformDirection(Vector2.right) + trans.TransformDirection(Vector2.down), 1);
-        Debug.DrawRay(trans.position, trans.TransformDirection(Vector2.right) + trans.TransformDirection(Vector2.down), Color.gray, 0.8f);
-        if (!hit) return false;
+        if (!hit)
+        {
+            Debug.DrawRay(trans.position, (trans.TransformDirection(Vector2.right) + trans.TransformDirection(Vector2.down)) * 0.5f, Color.red, 0.2f);
+            return false;
+        }
         if (hit.collider.tag == "Ground")
         {
+            Debug.DrawRay(trans.position, (trans.TransformDirection(Vector2.right) + trans.TransformDirection(Vector2.down)) * 0.5f, Color.green, 0.2f);
             return true;
         }
         else
@@ -71,32 +81,28 @@ public class AIController
         }
     }
 
+    Vector3 CannonShot(Vector3 target, float angle)
+    {
+        Vector3 dir = target - trans.position;
+        float h = dir.y;
+        dir.y = 0;
+        float dist = dir.magnitude;
+        float a = angle * Mathf.Deg2Rad;
+        dir.y = dist * Mathf.Tan(a);
+        dist += h / Mathf.Tan(a);
+        float vel = Mathf.Sqrt(dist * Physics.gravity.magnitude / Mathf.Sin(2 * a));
+        return vel * dir.normalized * 1.2f;
+    }
+
     void Jump(Vector2 pos)
     {
-        Jumping = true;
-        Vector2 p = pos;
-        float gravity = Physics.gravity.magnitude;
-        float initialAngle = trans.TransformDirection(Vector2.right).x * Mathf.Deg2Rad;
-        float angle = (pos.x > trans.position.x) ? 45 : -45;
-        angle *= Mathf.Deg2Rad;
-        Vector3 planarTarget = new Vector3(p.x, p.y, 0);
-        Vector3 planarPostion = new Vector3(trans.position.x, trans.position.y, 0);
-        float distance = Vector2.Distance(planarTarget, planarPostion);
-        float yOffset = trans.position.y - p.y;
-        float initialVelocity = (1 / Mathf.Cos(angle)) * Mathf.Sqrt((0.5f * gravity * Mathf.Pow(distance, 2)) / (distance * Mathf.Tan(angle) + yOffset));
-        Vector3 velocity = new Vector3(0, initialVelocity * Mathf.Sin(angle), initialVelocity * Mathf.Cos(angle));        
-        float angleBetweenObjects = Vector2.Angle(trans.TransformDirection(Vector2.right), planarTarget - planarPostion);
-        Vector3 finalVelocity = Quaternion.AngleAxis(angleBetweenObjects, Vector2.up) * velocity;
-        //rB.AddForce(finalVelocity * rB.mass * 5, ForceMode2D.Impulse);
-        rB.velocity = finalVelocity * 1.4f;
-        if (Vector2.Distance(trans.position, pos) > 3f || IsJumping())
-        {
-            Debug.Log(Vector2.Distance(trans.position, pos));
-        }
-        else
+        rB.velocity = CannonShot(pos, 65);
+        if (Vector2.Distance(trans.position, pos) < 1f)
         {
             Debug.Log("Target Wiped");
             Target = null;
         }
+        //Update boolean
+        IsJumping();
     }
 }
