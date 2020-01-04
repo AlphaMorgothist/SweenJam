@@ -2,17 +2,22 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class SlickStatus : MonoBehaviour
+public class SlickStatus : StatusEffects
 {
-    // Start is called before the first frame update
-    void Start()
-    {
-        
-    }
+    public SlickStatus(float duration) :
+        base(duration)
+    { }
 
-    // Update is called once per frame
-    void Update()
+    public override void UpdateStatusEffect()
     {
-        
+        effectLifetime += Time.deltaTime;
+        if (effectLifetime >= effectDuration)
+        {
+            expired = true;
+        }
+        else
+        {
+            //apply change to modifier
+        }
     }
 }
