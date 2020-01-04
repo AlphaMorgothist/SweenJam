@@ -37,6 +37,7 @@ public class AIController
         }
         else if (!Grounded && Mathf.Abs(rB.velocity.y) < 0.4f && Target == null)
         {
+            rB.velocity *= 0.2f;
             TurnAround();
         }
         else if (Target && !IsJumping())

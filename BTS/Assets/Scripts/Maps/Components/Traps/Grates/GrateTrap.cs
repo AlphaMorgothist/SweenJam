@@ -8,19 +8,19 @@ public class GrateTrap : TrapComponent
     {
         if (trapType == TrapTypes.FIRE)
         {
-            //burn the character
+            character.DamageChar(1);
         }
         else if (trapType == TrapTypes.ICE)
         {
-            //freezes character for a short duration
+            character.CharStatus.ApplyStatusEffect(new FreezeStatus(statusDuration));
         }
         else if (trapType == TrapTypes.SLOW)
         {
-            //player gets slowed for a short duration
+            character.CharStatus.ApplyStatusEffect(new SlowStatus(statusDuration));
         }
         else if (trapType == TrapTypes.SPIKE)
         {
-            //player takes damage
+            character.DamageChar(1);
         }
     }
 }
