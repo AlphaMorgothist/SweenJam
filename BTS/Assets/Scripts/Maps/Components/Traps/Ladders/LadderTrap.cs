@@ -33,11 +33,11 @@ public class LadderTrap : TrapComponent
     {
         if (trapType == TrapTypes.FIRE)
         {
-            //character gets burned
+            character.DamageChar(1);
         }
         else if (trapType == TrapTypes.ICE)
         {
-            //character freezes for a short duration
+            character.CharStatus.ApplyStatusEffect(new SlowStatus(statusDuration));
         }
         else if (trapType == TrapTypes.SLOW)
         {

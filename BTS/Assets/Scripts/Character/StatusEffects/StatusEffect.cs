@@ -10,7 +10,7 @@ public abstract class StatusEffects
 
     public StatusEffects(float duration)
     {
-        effectDuration = d;
+        effectDuration = duration;
         effectLifetime = 0f;
     }
 
