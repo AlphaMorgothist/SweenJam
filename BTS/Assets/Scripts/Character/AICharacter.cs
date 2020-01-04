@@ -7,6 +7,7 @@ using UnityEngine;
 [RequireComponent(typeof(Rigidbody2D))]
 [RequireComponent(typeof(PolygonCollider2D))]
 [RequireComponent(typeof(SpriteRenderer))]
+[RequireComponent(typeof(Animator))]
 
 
 public class AICharacter : MonoBehaviour
@@ -54,9 +55,13 @@ public class AICharacter : MonoBehaviour
     Transform trans;
     float scanDelay = 0.4f;
     GameObject currentGround = null;
+    List<GameObject> touchedPlats;
 
     //John's Status Getter/Setter
     public AIStatus CharStatus { get => charStatus; set => charStatus = value; }
+
+    //Animator Getter
+    public Animator CharAnim { get => GetComponent<Animator>(); }
 
     void Start()
     {
@@ -65,11 +70,12 @@ public class AICharacter : MonoBehaviour
         pointDict = new Dictionary<GameObject, float>();
         charStats = new AIStats(moveSpeed, jumpHeight, health, recoverySpeed);
         charStatus = new AIStatus();
+        touchedPlats = new List<GameObject>();
     }
     
     void Update()
     {
-        charControl.Update(trans.TransformDirection(Vector2.right) * 4);
+        charControl.Update(trans.TransformDirection(Vector2.right) * moveSpeed);
         grounded = charControl.Grounded;
         if (!thinking)
         {
@@ -126,7 +132,7 @@ public class AICharacter : MonoBehaviour
         }
         // Call Point Function: Calculate final Objective
         finalObjective = TallyPoints(seenObjects, pointDict);
-        if (finalObjective == currentGround) charControl.Target = null;
+        if (finalObjective == currentGround || touchedPlats.Contains(finalObjective)) charControl.Target = null;
         else charControl.Target = finalObjective;
         yield return new WaitForSeconds(scanDelay);
         thinking = false;
@@ -165,17 +171,17 @@ public class AICharacter : MonoBehaviour
         float pointCost = 0;
         foreach (var gObject in SeenObjects)
         {
-            pointCost += Vector2.Distance(trans.position, gObject.transform.position);
+            pointCost += Vector2.Distance(trans.position, gObject.transform.position) * 10;
             switch (gObject.tag)
             {
                 case "Ground":
                     if (gObject.transform.position.y > trans.position.y)
                     {
-                        pointCost *= 0.5f;
+                        pointCost *= 0.9f;
                     }
                     else
                     {
-                        pointCost *= 2;
+                        pointCost *= 5;
                     }
                     break;
                 case "Trap":
@@ -218,6 +224,7 @@ public class AICharacter : MonoBehaviour
         {
             currentGround = collision.gameObject;
             charControl.Grounded = true;
+            touchedPlats.Add(currentGround);
         }
     }
 
@@ -226,7 +233,7 @@ public class AICharacter : MonoBehaviour
         if (collision.gameObject.tag == "Ground" && collision.gameObject.transform.position.y < trans.position.y)
         {
             currentGround = null;
-            charControl.Grounded = false;
+            //charControl.Grounded = false;
         }
     }
 

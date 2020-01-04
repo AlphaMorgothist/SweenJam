@@ -4,8 +4,5 @@ using UnityEngine;
 
 public abstract class Resource : MonoBehaviour
 {
-
-    private bool active;
-
-    protected abstract void ChangeTrap(TrapComponent target);
+    public abstract void ChangeTrap(TrapComponent target);
 }
