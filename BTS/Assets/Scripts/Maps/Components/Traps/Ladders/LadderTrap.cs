@@ -4,21 +4,12 @@ using UnityEngine;
 
 public class LadderTrap : TrapComponent
 {
-    public bool update;
     public GameObject basicLadderSprite;
     public GameObject unstableLadderSprite;
     public GameObject brokenLadderSprite;
     public GameObject fireLadderSprite;
     public GameObject iceLadderSprite;
     public GameObject slowLadderSprite;
-
-    private void Update()
-    {
-        if (update)
-        {
-            UpdateTiles();
-        }
-    }
 
     private void Start()
     {
@@ -37,7 +28,7 @@ public class LadderTrap : TrapComponent
         }
         else if (trapType == TrapTypes.ICE)
         {
-            character.CharStatus.ApplyStatusEffect(new SlowStatus(statusDuration));
+            character.CharStatus.ApplyStatusEffect(new FreezeStatus(statusDuration));
         }
         else if (trapType == TrapTypes.SLOW)
         {
@@ -48,11 +39,16 @@ public class LadderTrap : TrapComponent
     protected override void OnActivate()
     {
         base.OnActivate();
+        if (trapType == TrapTypes.UNSTABLE)
+        {
+            gameObject.SetActive(false);
+        }
         UpdateTiles();
     }
 
     protected override void UpdateTiles()
     {
+        base.UpdateTiles();
         switch (trapType)
         {
             // Ladders can be Basic, Unstable(breakable), Broken, On Fire, Icy, or Slow(Sticky) //
@@ -92,8 +88,9 @@ public class LadderTrap : TrapComponent
         }
     }
 
-    private void TileDeActivator()
+    protected override void TileDeActivator()
     {
+        base.TileDeActivator();
         basicLadderSprite.SetActive(false);
         unstableLadderSprite.SetActive(false);
         brokenLadderSprite.SetActive(false);

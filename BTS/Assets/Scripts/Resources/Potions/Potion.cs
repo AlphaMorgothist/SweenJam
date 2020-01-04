@@ -6,8 +6,13 @@ public class Potion : Resource
 {
     public TrapTypes potionType;
 
-    protected override void ChangeTrap(TrapComponent target)
+    public override void ChangeTrap(TrapComponent target)
     {
         target.SetTrapType(potionType);
+    }
+
+    public void SetPotionType(TrapTypes type)
+    {
+        potionType = type;
     }
 }
