@@ -6,6 +6,7 @@ public class TrapComponent : MapComponent
 {
     public TrapTypes trapType;
     protected bool isActive;
+    protected float statusDuration;
 
     private void Update()
     {
@@ -26,35 +27,14 @@ public class TrapComponent : MapComponent
         {
             if (collision.collider.CompareTag("AI"))
             {
-                ApplyEffect();
+                ApplyEffect(collision.gameObject.GetComponent<AICharacter>());
             }
         }
     }
 
-    public void ApplyEffect()
+    protected virtual void ApplyEffect(AICharacter character)
     {
-        switch (trapType)
-        {
-            // This function will handle all trap effects on the AI //
-            case TrapTypes.BASIC:
-                break;
-            case TrapTypes.UNSTABLE:
-                break;
-            case TrapTypes.BROKEN:
-                break;
-            case TrapTypes.FIRE:
-                break;
-            case TrapTypes.ICE:
-                break;
-            case TrapTypes.SLOW:
-                break;
-            case TrapTypes.SPIKE:
-                break;
-            case TrapTypes.SLIPPERY:
-                break;
-            default:
-                break;
-        }
+        
     }
 
     virtual protected void OnActivate()
@@ -75,11 +55,6 @@ public class TrapComponent : MapComponent
             && type != TrapTypes.BASIC)
             return; //Spike traps can only become basic
         trapType = type;
-        TypeChanged();
-    }
-
-    protected virtual void TypeChanged()
-    {
-
+        UpdateTiles();
     }
 }

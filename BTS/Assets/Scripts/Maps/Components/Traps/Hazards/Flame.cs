@@ -2,7 +2,10 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Flame : HazardTrap
+public class Flame : TrapComponent
 {
-
+    protected override void ApplyEffect(AICharacter character)
+    {
+        //character takes damage
+    }
 }

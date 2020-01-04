@@ -4,8 +4,9 @@ using UnityEngine;
 
 public class AIStatus
 {
-    public enum StatusType { Normal, Feared, Confused }
+    public enum StatusType { Normal, Feared, Frozen, Slowed, Slicked }
     [SerializeField] StatusType currentStatus;
+    private List<StatusEffects> statusEffects;
 
     // Constructor 
     public AIStatus()
@@ -13,13 +14,19 @@ public class AIStatus
         currentStatus = StatusType.Normal;
     }
 
-    /// <summary>
-    /// Changes the character status to specified type
-    /// </summary>
-    /// <param name="type">Desired status effect. Use CharacterStatus.StatusType </param>
-    public void EffectStatus(StatusType type)
+    public void UpdateStatus()
     {
-        currentStatus = type;
+        foreach (StatusEffects status in statusEffects)
+        {
+            status.UpdateStatusEffect();
+            if (status.IsExpired())
+                statusEffects.Remove(status);
+        }
+    }
+
+    public void ApplyStatusEffect(StatusEffects status)
+    {
+        statusEffects.Add(status);
     }
 
     /// <summary>

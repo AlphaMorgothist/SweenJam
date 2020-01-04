@@ -4,6 +4,21 @@ using UnityEngine;
 
 public class LadderTrap : TrapComponent
 {
+    protected override void ApplyEffect(AICharacter character)
+    {
+        if (trapType == TrapTypes.FIRE)
+        {
+            //character gets burned
+        }
+        else if (trapType == TrapTypes.ICE)
+        {
+            //character freezes for a short duration
+        }
+        else if (trapType == TrapTypes.SLOW)
+        {
+            //character gets slowed for a short duration
+        }
+    }
     protected override void OnActivate()
     {
         base.OnActivate();
@@ -30,11 +45,5 @@ public class LadderTrap : TrapComponent
             default:
                 break;
         }
-    }
-
-    protected override void TypeChanged()
-    {
-        base.TypeChanged();
-        UpdateTiles();
     }
 }
