@@ -27,8 +27,9 @@ public class AIController
         }
     }
 
-    public void Update(Vector2 force)
+    public void Update(Vector2 force, Transform _trans)
     {
+        trans = _trans;
         Grounded = IsGrounded();
         if (!IsJumping())
         {
@@ -64,7 +65,7 @@ public class AIController
 
     public bool IsGrounded()
     {
-        RaycastHit2D hit = Physics2D.Raycast(trans.position, trans.TransformDirection(Vector2.right) + trans.TransformDirection(Vector2.down), 1);
+        RaycastHit2D hit = Physics2D.Raycast(trans.position, (trans.TransformDirection(Vector2.right) + trans.TransformDirection(Vector2.down)) * 0.5f, 1);
         if (!hit)
         {
             Debug.DrawRay(trans.position, (trans.TransformDirection(Vector2.right) + trans.TransformDirection(Vector2.down)) * 0.5f, Color.red, 0.2f);
@@ -96,6 +97,7 @@ public class AIController
 
     void Jump(Vector2 pos)
     {
+        if (IsJumping()) return;
         rB.velocity = CannonShot(pos, 65);
         if (Vector2.Distance(trans.position, pos) < 1f)
         {

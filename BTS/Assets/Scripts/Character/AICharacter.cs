@@ -50,6 +50,8 @@ public class AICharacter : MonoBehaviour
     [SerializeField] string trapTag;
     [SerializeField] string lootTag;
     [SerializeField] string useTag;
+    [Header("Debug Tool: Clear Console")]
+    [SerializeField] bool ClearCon = false;
 
     // Declare 'sight' detection members
     Transform trans;
@@ -75,7 +77,7 @@ public class AICharacter : MonoBehaviour
     
     void Update()
     {
-        charControl.Update(trans.TransformDirection(Vector2.right) * moveSpeed);
+        charControl.Update(trans.TransformDirection(Vector2.right) * moveSpeed, trans);
         grounded = charControl.Grounded;
         if (!thinking)
         {
@@ -89,7 +91,8 @@ public class AICharacter : MonoBehaviour
     IEnumerator Think()
     {
         thinking = true;
-        //ClearLog();
+        if (ClearCon)
+        ClearLog();
         //Check Status to see if we are feared, if so we just randomly run and forget the rest of this process
 
         GameObject finalObjective;
@@ -99,14 +102,15 @@ public class AICharacter : MonoBehaviour
         Collider2D[] hits = Physics2D.OverlapCircleAll(trans.position, jumpHeight);
         if (hits.Length >= 1)
         {
-            //Lists for: Platforms, traps, ladders, chests
+            //List for: Platforms, traps, ladders, chests {SEEN OBJECTS}
             foreach (var hit in hits)
             {
+                Debug.Log("Hit:" + hit);
                 switch (hit.tag)
                 {
                     case "Ground":
                         if (hit.gameObject == currentGround) break;
-                        RaycastHit2D[] rayHits = Physics2D.RaycastAll(trans.position, hit.transform.position);
+                        RaycastHit2D[] rayHits = Physics2D.RaycastAll(trans.position, hit.transform.position - trans.position, Vector2.Distance(trans.position, hit.transform.position));
                         if (rayHits.Length > 0)
                         {
                             if (rayHits[0].collider != hit && rayHits[0].collider.gameObject.tag != hit.gameObject.tag)
