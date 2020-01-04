@@ -4,5 +4,5 @@ using UnityEngine;
 
 public class WallComponent : MapComponent
 {
-
+    private bool movable;
 }
