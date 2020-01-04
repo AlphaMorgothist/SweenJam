@@ -55,10 +55,13 @@ public class AICharacter : MonoBehaviour
     float scanDelay = 0.4f;
     GameObject currentGround = null;
 
+    //John's Status Getter/Setter
+    public AIStatus CharStatus { get => charStatus; set => charStatus = value; }
+
     void Start()
     {
         trans = transform;
-        charControl = new AIController(gameObject.GetComponent<Rigidbody2D>());
+        charControl = new AIController(gameObject.GetComponent<Rigidbody2D>(), trans);
         pointDict = new Dictionary<GameObject, float>();
         charStats = new AIStats(moveSpeed, jumpHeight, health, recoverySpeed);
         charStatus = new AIStatus();
@@ -66,6 +69,7 @@ public class AICharacter : MonoBehaviour
     
     void Update()
     {
+        charControl.Update(trans.TransformDirection(Vector2.right) * 4);
         grounded = charControl.Grounded;
         if (!thinking)
         {
@@ -79,7 +83,7 @@ public class AICharacter : MonoBehaviour
     IEnumerator Think()
     {
         thinking = true;
-        ClearLog();
+        //ClearLog();
         //Check Status to see if we are feared, if so we just randomly run and forget the rest of this process
 
         GameObject finalObjective;
@@ -120,16 +124,15 @@ public class AICharacter : MonoBehaviour
                 }
             }
         }
-        else
-        {
-           // Debug.Log("no hits");
-        }
         // Call Point Function: Calculate final Objective
         finalObjective = TallyPoints(seenObjects, pointDict);
+        if (finalObjective == currentGround) charControl.Target = null;
+        else charControl.Target = finalObjective;
         yield return new WaitForSeconds(scanDelay);
         thinking = false;
     }
 
+    #region Utility
     private void OnDrawGizmosSelected()
     {
         Gizmos.color = new Color(0, 250, 250, 0.2f);
@@ -146,6 +149,8 @@ public class AICharacter : MonoBehaviour
         }
     }
 
+
+    
     public void ClearLog()
     {
         var assembly = Assembly.GetAssembly(typeof(UnityEditor.Editor));
@@ -153,6 +158,7 @@ public class AICharacter : MonoBehaviour
         var method = type.GetMethod("Clear");
         method.Invoke(new object(), null);
     }
+    #endregion This Shit is all for testing
 
     GameObject TallyPoints(List<GameObject> SeenObjects, Dictionary<GameObject, float> pointDict)
     {

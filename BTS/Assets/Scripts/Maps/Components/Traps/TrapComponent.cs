@@ -6,6 +6,7 @@ public class TrapComponent : MapComponent
 {
     public TrapTypes trapType;
     protected bool isActive;
+    protected float statusDuration;
 
     private void Update()
     {

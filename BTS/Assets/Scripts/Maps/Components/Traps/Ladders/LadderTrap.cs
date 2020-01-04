@@ -42,6 +42,7 @@ public class LadderTrap : TrapComponent
         else if (trapType == TrapTypes.SLOW)
         {
             //character gets slowed for a short duration
+            character.CharStatus.ApplyStatusEffect(new SlowStatus(statusDuration));
         }
     }
     protected override void OnActivate()
