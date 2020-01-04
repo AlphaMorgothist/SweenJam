@@ -5,14 +5,15 @@ using UnityEngine;
 public class AIController 
 {
     Rigidbody2D rB;
+    public bool Grounded = false;
 
     public AIController(Rigidbody2D RB)
     {
         rB = RB;
-        Start();
+        Init();
     }
 
-    void Start()
+    void Init()
     {
         
     }
@@ -21,4 +22,5 @@ public class AIController
     {
         rB.AddForce(force, ForceMode2D.Force);
     }
+
 }
