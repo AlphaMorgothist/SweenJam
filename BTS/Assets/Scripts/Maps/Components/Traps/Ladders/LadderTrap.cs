@@ -22,12 +22,12 @@ public class LadderTrap : TrapComponent
 
     private void Start()
     {
-        basicLadderSprite = gameObject.transform.GetChild(0).gameObject;
-        unstableLadderSprite = gameObject.transform.GetChild(1).gameObject;
-        brokenLadderSprite = gameObject.transform.GetChild(2).gameObject;
-        fireLadderSprite = gameObject.transform.GetChild(3).gameObject;
-        iceLadderSprite = gameObject.transform.GetChild(4).gameObject;
-        slowLadderSprite = gameObject.transform.GetChild(5).gameObject;
+        basicLadderSprite = gameObject.transform.GetChild(0).GetChild(0).gameObject;
+        unstableLadderSprite = gameObject.transform.GetChild(0).GetChild(1).gameObject;
+        brokenLadderSprite = gameObject.transform.GetChild(0).GetChild(2).gameObject;
+        fireLadderSprite = gameObject.transform.GetChild(0).GetChild(3).gameObject;
+        iceLadderSprite = gameObject.transform.GetChild(0).GetChild(4).gameObject;
+        slowLadderSprite = gameObject.transform.GetChild(0).GetChild(5).gameObject;
     }
     protected override void ApplyEffect(AICharacter character)
     {
@@ -73,6 +73,7 @@ public class LadderTrap : TrapComponent
                 break;
             case TrapTypes.FIRE:
                 TileDeActivator();
+                basicLadderSprite.SetActive(true);
                 fireLadderSprite.SetActive(true);
                 update = false;
                 break;
