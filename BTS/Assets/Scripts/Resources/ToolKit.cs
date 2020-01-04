@@ -4,8 +4,9 @@ using UnityEngine;
 
 public class ToolKit : Resource
 {
-    protected override void ChangeTrap(TrapComponent target)
+    public override void ChangeTrap(TrapComponent target)
     {
-        throw new System.NotImplementedException();
+        //makes disabled traps interactable
+        target.SetTrapType(TrapTypes.UNSTABLE);
     }
 }
