@@ -4,6 +4,7 @@ using UnityEngine;
 
 public class TrapComponent : MapComponent
 {
+    public TrapTypes trapType;
     protected bool isActive;
 
     private void Update()
