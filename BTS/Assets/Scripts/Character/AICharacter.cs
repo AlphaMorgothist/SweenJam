@@ -36,7 +36,7 @@ public class AICharacter : MonoBehaviour
     [SerializeField] float moveSpeed;
     [Range(1, 100)]
     [SerializeField] float jumpHeight;
-    [Range(0, 100)]
+    [Range(0, 3)]
     [SerializeField] float health;
     [Range(1, 100)]
     [SerializeField] float recoverySpeed;
@@ -228,6 +228,16 @@ public class AICharacter : MonoBehaviour
             currentGround = null;
             charControl.Grounded = false;
         }
+    }
+
+    public void DamageChar(float amount)
+    {
+        charStats.AffectStat(AIStats.StatType.hp, amount, true);
+    }
+
+    public void HealChar(float amount)
+    {
+        charStats.AffectStat(AIStats.StatType.hp, amount, false);
     }
 
 }
