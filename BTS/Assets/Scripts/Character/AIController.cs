@@ -2,17 +2,23 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class CharacterController : MonoBehaviour
+public class AIController 
 {
-    // Start is called before the first frame update
+    Rigidbody2D rB;
+
+    public AIController(Rigidbody2D RB)
+    {
+        rB = RB;
+        Start();
+    }
+
     void Start()
     {
         
     }
-
-    // Update is called once per frame
-    void Update()
+    
+    public void Update(Vector2 force)
     {
-        
+        rB.AddForce(force, ForceMode2D.Force);
     }
 }
