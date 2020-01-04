@@ -4,11 +4,32 @@ using UnityEngine;
 
 public class LadderTrap : TrapComponent
 {
-
-    private void Update()
+    protected override void ApplyEffect(AICharacter character)
     {
-        switch(trapType)
+        if (trapType == TrapTypes.FIRE)
         {
+            //character gets burned
+        }
+        else if (trapType == TrapTypes.ICE)
+        {
+            //character freezes for a short duration
+        }
+        else if (trapType == TrapTypes.SLOW)
+        {
+            //character gets slowed for a short duration
+        }
+    }
+    protected override void OnActivate()
+    {
+        base.OnActivate();
+        UpdateTiles();
+    }
+
+    protected override void UpdateTiles()
+    {
+        switch (trapType)
+        {
+            // Ladders can be Basic, Unstable(breakable), Broken, On Fire, Icy, or Slow(Sticky) //
             case TrapTypes.BASIC:
                 break;
             case TrapTypes.UNSTABLE:
@@ -16,11 +37,13 @@ public class LadderTrap : TrapComponent
             case TrapTypes.BROKEN:
                 break;
             case TrapTypes.FIRE:
-                
+                break;
+            case TrapTypes.ICE:
+                break;
+            case TrapTypes.SLOW:
+                break;
             default:
                 break;
         }
     }
-
-
 }

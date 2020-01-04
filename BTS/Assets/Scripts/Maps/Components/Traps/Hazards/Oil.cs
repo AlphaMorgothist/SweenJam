@@ -2,10 +2,10 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Flame : TrapComponent
+public class Oil : TrapComponent
 {
     protected override void ApplyEffect(AICharacter character)
     {
-        //character takes damage
+        //reduce character friction for a short duration
     }
 }

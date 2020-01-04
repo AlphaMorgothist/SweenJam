@@ -13,7 +13,7 @@ GameObject:
   - component: {fileID: 7434709988619032252}
   - component: {fileID: 7434709988619032255}
   - component: {fileID: 7434709988619032254}
-  m_Layer: 0
+  m_Layer: 9
   m_Name: AICharacter 1
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -29,7 +29,7 @@ Transform:
   m_GameObject: {fileID: 7434709988619032249}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_LocalScale: {x: 1, y: 2, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
   m_RootOrder: 0
@@ -71,20 +71,25 @@ PolygonCollider2D:
   m_Offset: {x: 0, y: 0}
   m_SpriteTilingProperty:
     border: {x: 0, y: 0, z: 0, w: 0}
-    pivot: {x: 0, y: 0}
-    oldSize: {x: 0, y: 0}
-    newSize: {x: 0, y: 0}
-    adaptiveTilingThreshold: 0
+    pivot: {x: 0.5, y: 0.5}
+    oldSize: {x: 0.2, y: 0.2}
+    newSize: {x: 0.2, y: 0.2}
+    adaptiveTilingThreshold: 0.5
     drawMode: 0
     adaptiveTiling: 0
   m_AutoTiling: 0
   m_Points:
     m_Paths:
-    - - {x: 0, y: 1}
-      - {x: -0.95105654, y: 0.30901697}
-      - {x: -0.5877852, y: -0.80901706}
-      - {x: 0.58778536, y: -0.80901694}
-      - {x: 0.9510565, y: 0.30901712}
+    - - {x: -0.04003477, y: 0.089038186}
+      - {x: -0.08804166, y: 0.044003475}
+      - {x: -0.09003475, y: -0.03}
+      - {x: -0.06104862, y: -0.077027775}
+      - {x: -0.0390902, y: -0.08804166}
+      - {x: 0.044055518, y: -0.08804166}
+      - {x: 0.066118084, y: -0.06503471}
+      - {x: 0.086048536, y: -0.043111064}
+      - {x: 0.09003476, y: 0.041048612}
+      - {x: 0.04003468, y: 0.089038186}
 --- !u!212 &7434709988619032255
 SpriteRenderer:
   m_ObjectHideFlags: 0
@@ -122,15 +127,15 @@ SpriteRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 0
-  m_Sprite: {fileID: 0}
+  m_Sprite: {fileID: 10913, guid: 0000000000000000f000000000000000, type: 0}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0
   m_DrawMode: 0
-  m_Size: {x: 1, y: 1}
+  m_Size: {x: 0.2, y: 0.2}
   m_AdaptiveModeThreshold: 0.5
   m_SpriteTileMode: 0
-  m_WasSpriteAssigned: 0
+  m_WasSpriteAssigned: 1
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
 --- !u!114 &7434709988619032254
@@ -145,9 +150,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 77f0c1dd29aa2b247add04f3d698f688, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  moveSpeed: 1
-  jumpHeight: 1
-  health: 0
+  grounded: 0
+  moveSpeed: 10
+  jumpHeight: 4
+  health: 100
   recoverySpeed: 1
   statusType: 0
   groundTag: Ground

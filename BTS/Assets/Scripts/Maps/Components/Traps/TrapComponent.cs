@@ -15,21 +15,45 @@ public class TrapComponent : MapComponent
         }
     }
 
+    protected virtual void UpdateTiles()
+    {
+
+    }
+
     private void OnCollisionEnter2D(Collision2D collision)
     {
-        if(collision.collider.CompareTag("AI"))
+        if (isActive)
         {
-            ApplyEffect();
+            if (collision.collider.CompareTag("AI"))
+            {
+                ApplyEffect(collision.gameObject.GetComponent<AICharacter>());
+            }
         }
     }
 
-    virtual protected void ApplyEffect()
+    protected virtual void ApplyEffect(AICharacter character)
     {
-
+        
     }
 
     virtual protected void OnActivate()
     {
 
+    }
+
+    public void SetTrapType(TrapTypes type)
+    {
+        if (trapType == type) 
+            return; //Traps cannot be changed into itself
+        if (trapType == TrapTypes.BROKEN)
+            return; //Broken traps cannot be changed into anything else
+        if ((trapType != TrapTypes.UNSTABLE) &&
+            type == TrapTypes.BROKEN)
+            return; //Only unstable traps can be broken
+        if ((trapType == TrapTypes.SPIKE)
+            && type != TrapTypes.BASIC)
+            return; //Spike traps can only become basic
+        trapType = type;
+        UpdateTiles();
     }
 }
