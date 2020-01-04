@@ -25,7 +25,7 @@ public class AIStatus
     /// <summary>
     /// Called to get the current active status of the character
     /// </summary>
-    /// <returns></returns>
+    /// <returns> Current Status of Character </returns>
     public StatusType GetStatus()
     {
         return currentStatus;
