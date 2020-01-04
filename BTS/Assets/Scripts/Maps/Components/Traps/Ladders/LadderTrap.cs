@@ -4,11 +4,17 @@ using UnityEngine;
 
 public class LadderTrap : TrapComponent
 {
-
-    private void Update()
+    protected override void OnActivate()
     {
-        switch(trapType)
+        base.OnActivate();
+        UpdateTiles();
+    }
+
+    private void UpdateTiles()
+    {
+        switch (trapType)
         {
+            // Ladders can be Basic, Unstable(breakable), Broken, On Fire, Icy, or Slow(Sticky) //
             case TrapTypes.BASIC:
                 break;
             case TrapTypes.UNSTABLE:
@@ -16,11 +22,19 @@ public class LadderTrap : TrapComponent
             case TrapTypes.BROKEN:
                 break;
             case TrapTypes.FIRE:
-                
+                break;
+            case TrapTypes.ICE:
+                break;
+            case TrapTypes.SLOW:
+                break;
             default:
                 break;
         }
     }
 
-
+    protected override void TypeChanged()
+    {
+        base.TypeChanged();
+        UpdateTiles();
+    }
 }
