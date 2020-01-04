@@ -6,6 +6,6 @@ public class Flame : TrapComponent
 {
     protected override void ApplyEffect(AICharacter character)
     {
-        //character takes damage
+        character.DamageChar(1);
     }
 }
