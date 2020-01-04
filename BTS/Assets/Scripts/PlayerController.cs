@@ -5,9 +5,9 @@ using UnityEngine;
 public class PlayerController
 {
     private Resource activeResource;
-    public List<Potion> redPotions;
-    public List<Potion> greenPotions;
-    public List<Potion> bluePotions;
+    public List<RedPotion> redPotions;
+    public List<GreenPotion> greenPotions;
+    public List<BluePotion> bluePotions;
     public List<ToolKit> toolKits;
 
     public void SetActiveResource(Resource resource)
