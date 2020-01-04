@@ -2,17 +2,36 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class GameEventManager : MonoBehaviour
+public class GameEventManager 
 {
-    // Start is called before the first frame update
-    void Start()
+    public delegate void GameEvent();
+
+    public static GameEvent GameStart;
+    public static GameEvent GameOver;
+    public static GameEvent Restart;
+    public static GameEvent GameWin;
+
+    public static void TriggerGameStart()
     {
-        
+        if (GameStart != null)
+            GameStart();
     }
 
-    // Update is called once per frame
-    void Update()
+    public static void TriggerGameOver()
     {
-        
+        if (GameOver != null)
+            GameOver();
+    }
+
+    public static void TriggerRestart()
+    {
+        if (Restart != null)
+            Restart();
+    }
+
+    public static void TriggerGameWin()
+    {
+        if (GameWin != null)
+            GameWin();
     }
 }
