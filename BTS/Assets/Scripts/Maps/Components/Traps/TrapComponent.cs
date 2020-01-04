@@ -15,6 +15,11 @@ public class TrapComponent : MapComponent
         }
     }
 
+    protected virtual void UpdateTiles()
+    {
+
+    }
+
     private void OnCollisionEnter2D(Collision2D collision)
     {
         if (isActive)
@@ -63,27 +68,17 @@ public class TrapComponent : MapComponent
             return; //Traps cannot be changed into itself
         if (trapType == TrapTypes.BROKEN)
             return; //Broken traps cannot be changed into anything else
-        if ((trapType == TrapTypes.BASIC ||
-            trapType == TrapTypes.FIRE ||
-            trapType == TrapTypes.ICE ||
-            trapType == TrapTypes.SLIPPERY ||
-            trapType == TrapTypes.SLOW ||
-            trapType == TrapTypes.SPIKE) &&
+        if ((trapType != TrapTypes.UNSTABLE) &&
             type == TrapTypes.BROKEN)
-            return; //Basic, fire, ice, slippery, slow, and spike traps cannot be broken
-        if ((trapType == TrapTypes.SPIKE) &&
-            type == TrapTypes.BROKEN ||
-            type == TrapTypes.FIRE ||
-            type == TrapTypes.ICE ||
-            type == TrapTypes.SLIPPERY ||
-            type == TrapTypes.SLOW ||
-            type == TrapTypes.UNSTABLE)
-            return; //Spike traps cannot be broken, unstable or changed with potions
+            return; //Only unstable traps can be broken
+        if ((trapType == TrapTypes.SPIKE)
+            && type != TrapTypes.BASIC)
+            return; //Spike traps can only become basic
         trapType = type;
         TypeChanged();
     }
 
-    virtual protected void TypeChanged()
+    protected virtual void TypeChanged()
     {
 
     }

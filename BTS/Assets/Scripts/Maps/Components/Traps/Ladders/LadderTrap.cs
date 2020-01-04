@@ -10,7 +10,7 @@ public class LadderTrap : TrapComponent
         UpdateTiles();
     }
 
-    private void UpdateTiles()
+    protected override void UpdateTiles()
     {
         switch (trapType)
         {
