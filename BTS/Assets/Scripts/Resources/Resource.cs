@@ -2,7 +2,10 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Resource : MonoBehaviour
+public abstract class Resource : MonoBehaviour
 {
 
+    private bool active;
+
+    protected abstract void ChangeTrap(TrapComponent target);
 }
