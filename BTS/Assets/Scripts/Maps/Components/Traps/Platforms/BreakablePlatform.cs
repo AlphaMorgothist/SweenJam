@@ -4,5 +4,9 @@ using UnityEngine;
 
 public class BreakablePlatform : PlatformTrap
 {
-
+    protected override void OnActivate()
+    {
+        base.OnActivate();
+        gameObject.transform.GetChild(0).gameObject.SetActive(false);
+    }
 }
