@@ -206,7 +206,7 @@ GameObject:
   - component: {fileID: 1350668648}
   - component: {fileID: 1350668647}
   m_Layer: 0
-  m_Name: New Sprite
+  m_Name: Hero
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -222,7 +222,7 @@ Animator:
   m_GameObject: {fileID: 1350668646}
   m_Enabled: 1
   m_Avatar: {fileID: 0}
-  m_Controller: {fileID: 9100000, guid: df5e2ecca3fbb0b4ab43fe96679f2e59, type: 2}
+  m_Controller: {fileID: 9100000, guid: f8cb21ddab7a2f84b849e1314ca3a462, type: 2}
   m_CullingMode: 0
   m_UpdateMode: 0
   m_ApplyRootMotion: 0
@@ -268,7 +268,7 @@ SpriteRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 0
-  m_Sprite: {fileID: 21300030, guid: 779379838bbb61e478ded2c1918cfb03, type: 3}
+  m_Sprite: {fileID: 21300000, guid: 621de36a0279ada448568998a5f09b30, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0
